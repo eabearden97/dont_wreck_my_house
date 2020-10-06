@@ -3,27 +3,23 @@ package learn.wreck.repository;
 import learn.wreck.models.Guest;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GuestFileRepository implements GuestRepository{
-    private final String HEADER="guest_id,first_name,last_name,email,phone,state";
     private final String filePath;
 
     public GuestFileRepository(String filePath) {
         this.filePath = filePath;
     }
 
-    // TODO implement these methods and test them
     @Override
     public List<Guest> findAll() {
         ArrayList<Guest> allGuests = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
-
             reader.readLine();
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 String[] fields = line.split(",",-1);
@@ -32,10 +28,32 @@ public class GuestFileRepository implements GuestRepository{
                     allGuests.add(guest);
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
 
         }
         return allGuests;
+    }
+
+    @Override
+    public Guest findByEmail(String guestEmail) {
+        List<Guest> allGuests = findAll();
+        for (Guest guest : allGuests) {
+            if (guest.getEmailAddress().equalsIgnoreCase(guestEmail)) {
+                return guest;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Guest findByID(int guestID) {
+        List<Guest> allGuests = findAll();
+        for (Guest guest : allGuests) {
+            if (guest.getGuestID() == guestID) {
+                return guest;
+            }
+        }
+        return null;
     }
 
     private Guest deserialize(String[] fields) {
@@ -49,13 +67,4 @@ public class GuestFileRepository implements GuestRepository{
         return guest;
     }
 
-    @Override
-    public List<Guest> findByEmail(String guestEmail) {
-        return null;
-    }
-
-    @Override
-    public List<Guest> findByID(int guestID) {
-        return null;
-    }
 }

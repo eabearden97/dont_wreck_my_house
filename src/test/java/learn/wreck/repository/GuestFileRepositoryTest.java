@@ -35,10 +35,43 @@ class GuestFileRepositoryTest {
     }
 
     @Test
-    void findByEmail() {
+    void shouldFindByEmail() {
+        Guest guest = repository.findByEmail("slomas0@mediafire.com");
+
+        assertNotNull(guest);
+        assertEquals(1, guest.getGuestID());
+        assertEquals("Sullivan", guest.getFirstName());
+        assertEquals("Lomas", guest.getLastName());
+        assertEquals("slomas0@mediafire.com", guest.getEmailAddress());
+        assertEquals("(702) 7768761", guest.getPhoneNumber());
+        assertEquals("NV", guest.getState());
     }
 
     @Test
-    void findByID() {
+    void shouldNotFindMissingEmail() {
+        Guest guest = repository.findByEmail("invalidEmail@wrong.com");
+
+        assertNull(guest);
+    }
+
+    @Test
+    void shouldFindByID() {
+        Guest guest = repository.findByID(2);
+
+        assertNotNull(guest);
+        assertEquals("Olympie", guest.getFirstName());
+        assertEquals("Gecks", guest.getLastName());
+        assertEquals("ogecks1@dagondesign.com", guest.getEmailAddress());
+        assertEquals("(202) 2528316", guest.getPhoneNumber());
+        assertEquals("DC", guest.getState());
+    }
+
+    @Test
+    void shouldNotFindMissingID() {
+        Guest guest1 = repository.findByID(252525);
+        Guest guest2 = repository.findByID(-10);
+
+        assertNull(guest1);
+        assertNull(guest2);
     }
 }

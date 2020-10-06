@@ -8,7 +8,7 @@ public interface HostRepository {
 
     List<Host> findAll();
 
-    List<Host> findByEmail(String hostEmail);
+    Host findByEmail(String hostEmail);
 
-    List<Host> findByID(String hostID);
+    Host findByID(String hostID);
 }

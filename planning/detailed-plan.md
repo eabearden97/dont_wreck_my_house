@@ -82,12 +82,11 @@
         * [x] make a GuestFileRepository class that implements the Host_LocationRepository interface
             * Methods (CRUD Operations)
                 * Read/View Guest
-                    * [ ] findAll()
-                    * [ ] findByEmail()
-                    * [ ] findByID()
+                    * [x] findAll()
+                    * [x] findByEmail()
+                    * [x] findByID()
     * ====================================================
     * [ ] Test Data Layer (2 hours)
-        * 
         * [ ] Create Seed Filepath for data
         * [ ] Create Test Filepath for data
             * [ ] Use @BeforeEach to copy over elements from seed to test
@@ -105,6 +104,18 @@
                 * [ ] shouldCancelReservation
                 * [ ] shouldNotCancelReservation
                     * there will be several of these (under what conditions should it not make the reservation?)
+            * [x] Create GuestFileRepository Test
+                * [x] shouldFindAll
+                * [x] shouldFindByEmail
+                * [x] shouldNotFindMissingEmail             
+                * [x] shouldFindByID
+                * [x] shouldNotFindMissingID
+            * [] Create HostFileRepository Test
+                * [ ] shouldFindAll
+                * [ ] shouldFindByEmail
+                * [ ] shouldNotFindMissingEmail             
+                * [ ] shouldFindByID
+                * [ ] shouldNotFindMissingID
     * ====================================================
     * [ ] Build Domain Layer (4 hours)
         * [ ] Make ReservationService
@@ -278,6 +289,8 @@
         * [ ] delete unnecessary methods
         * [ ] delete code that is commented out
         * [ ] delete unnecessary imports
+        * [ ] GuestFileRepository and Host FileRepository could both come from the same interface
+            * they each have the same 3 methods
     * ====================================================
     * [ ] Miscellaneous Time (4 hours)
     * ====================================================
