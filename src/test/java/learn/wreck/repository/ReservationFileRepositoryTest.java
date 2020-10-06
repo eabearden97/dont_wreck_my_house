@@ -73,10 +73,81 @@ class ReservationFileRepositoryTest {
     }
 
     @Test
-    void editReservation() {
+    void shouldEditReservation() throws DataException {
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2022,8,8));
+        reservation.setEndDate(LocalDate.of(2022,8,13));
+        reservation.setReservationID(2);
+        reservation.setGuestID(841);
+        reservation.setTotalPrice(new BigDecimal(500));
+
+        assertNotNull(reservation);
+        assertEquals(13, repository.viewReservationsByHost(hostEmail, hostRepository).size());
+
+        assertTrue(repository.editReservation(reservation, hostEmail, hostRepository));
+        assertEquals(13, repository.viewReservationsByHost(hostEmail, hostRepository).size());
     }
 
     @Test
-    void cancelReservation() {
+    void shouldNotEditMissingReservation() throws DataException {
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2022,8,8));
+        reservation.setEndDate(LocalDate.of(2022,8,13));
+        reservation.setReservationID(100);
+        reservation.setGuestID(841);
+        reservation.setTotalPrice(new BigDecimal(500));
+
+        assertNotNull(reservation);
+        assertEquals(13, repository.viewReservationsByHost(hostEmail, hostRepository).size());
+
+        assertFalse(repository.editReservation(reservation, hostEmail, hostRepository));
+        assertEquals(13, repository.viewReservationsByHost(hostEmail, hostRepository).size());
     }
+
+    @Test
+    void shouldNotEditNullReservation() throws DataException {
+        assertFalse(repository.editReservation(null, hostEmail, hostRepository));
+    }
+
+    @Test
+    void shouldCancelReservation() throws DataException {
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2022,8,8));
+        reservation.setEndDate(LocalDate.of(2022,8,13));
+        reservation.setReservationID(2);
+        reservation.setGuestID(841);
+        reservation.setTotalPrice(new BigDecimal(500));
+
+        assertNotNull(reservation);
+        assertEquals(13, repository.viewReservationsByHost(hostEmail, hostRepository).size());
+
+        assertTrue(repository.cancelReservation(reservation, hostEmail, hostRepository));
+        assertEquals(12, repository.viewReservationsByHost(hostEmail, hostRepository).size());
+    }
+
+    @Test
+    void shouldNotCancelMissingReservation() throws DataException {
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2022,8,8));
+        reservation.setEndDate(LocalDate.of(2022,8,13));
+        reservation.setReservationID(100);
+        reservation.setGuestID(841);
+        reservation.setTotalPrice(new BigDecimal(500));
+
+        assertNotNull(reservation);
+        assertEquals(13, repository.viewReservationsByHost(hostEmail, hostRepository).size());
+
+        assertFalse(repository.cancelReservation(reservation, hostEmail, hostRepository));
+        assertEquals(13, repository.viewReservationsByHost(hostEmail, hostRepository).size());
+    }
+
+    @Test
+    void shouldNotCancelNullReservation() throws DataException {
+        assertEquals(13, repository.viewReservationsByHost(hostEmail, hostRepository).size());
+
+        assertFalse(repository.cancelReservation(null, hostEmail, hostRepository));
+
+        assertEquals(13, repository.viewReservationsByHost(hostEmail, hostRepository).size());
+    }
+
 }

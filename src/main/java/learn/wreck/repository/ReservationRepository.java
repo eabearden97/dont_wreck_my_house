@@ -8,10 +8,10 @@ public interface ReservationRepository {
 
     Reservation makeReservation(Reservation reservation, String hostEmail, HostFileRepository hostRepository) throws DataException;
 
-    List<Reservation> viewReservationsByHost(String email, HostFileRepository hostRepository);
+    List<Reservation> viewReservationsByHost(String hostEmail, HostFileRepository hostRepository);
 
-    boolean editReservation(Reservation reservation);
+    boolean editReservation(Reservation reservation, String hostEmail, HostFileRepository hostRepository) throws DataException;
 
-    boolean cancelReservation(Reservation reservation);
+    boolean cancelReservation(Reservation reservation, String hostEmail, HostFileRepository hostRepository) throws DataException;
 
 }
