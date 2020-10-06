@@ -18,6 +18,9 @@ public class Reservation {
         this.totalPrice = totalPrice;
     }
 
+    public Reservation() {
+    }
+
     public int getReservationID() {
         return reservationID;
     }

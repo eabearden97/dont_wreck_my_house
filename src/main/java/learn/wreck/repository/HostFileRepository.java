@@ -29,8 +29,7 @@ public class HostFileRepository implements HostRepository{
                     result.add(host);
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
         return result;
     }

@@ -72,12 +72,12 @@
                 * [ ] Update/Edit Reservation
                 * [ ] Remove/Cancel Reservation
         * [x] make a Host_LocationRepository interface
-        * [ ] make a Host_LocationFileRepository class that implements the Host_LocationRepository interface
+        * [x] make a Host_LocationFileRepository class that implements the Host_LocationRepository interface
             * Methods (CRUD Operations)
                 * Read/View Host
-                    * [ ] findAll()
-                    * [ ] findByEmail()
-                    * [ ] findByID()
+                    * [x] findAll()
+                    * [x] findByEmail()
+                    * [x] findByID()
         * [x] make a GuestRepository interface
         * [x] make a GuestFileRepository class that implements the Host_LocationRepository interface
             * Methods (CRUD Operations)
@@ -110,12 +110,12 @@
                 * [x] shouldNotFindMissingEmail             
                 * [x] shouldFindByID
                 * [x] shouldNotFindMissingID
-            * [] Create HostFileRepository Test
-                * [ ] shouldFindAll
-                * [ ] shouldFindByEmail
-                * [ ] shouldNotFindMissingEmail             
-                * [ ] shouldFindByID
-                * [ ] shouldNotFindMissingID
+            * [x] Create HostFileRepository Test
+                * [x] shouldFindAll
+                * [x] shouldFindByEmail
+                * [x] shouldNotFindMissingEmail             
+                * [x] shouldFindByID
+                * [x] shouldNotFindMissingID
     * ====================================================
     * [ ] Build Domain Layer (4 hours)
         * [ ] Make ReservationService
@@ -291,6 +291,11 @@
         * [ ] delete unnecessary imports
         * [ ] GuestFileRepository and Host FileRepository could both come from the same interface
             * they each have the same 3 methods
+        * [ ] ReservationFileRepository and its test require a hostEmail and hostRepository
+            * might make sense to just declare what file we're in to start with like in 
+                ForageFileRepositoryTest where the test only does 1 date/file
+                * if I do this, add a test that makes sure you can't add a reservation for the wrong host
+                * do what they did with dates at top of test but with hostID for a specific host/file
     * ====================================================
     * [ ] Miscellaneous Time (4 hours)
     * ====================================================
