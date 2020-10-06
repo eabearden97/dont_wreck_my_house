@@ -16,9 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class GuestFileRepositoryTest {
     static final String TEST_FILE_PATH = "./test_data/guest-test.csv";
     static final String SEED_FILE_PATH = "./test_data/guest-seed.csv";
-    static final String TEST_DIR_PATH = "./test_data";
 
-    GuestFileRepository repository = new GuestFileRepository(TEST_DIR_PATH);
+    GuestFileRepository repository = new GuestFileRepository(TEST_FILE_PATH);
 
     @BeforeEach
     void setUp() throws IOException {
@@ -28,10 +27,10 @@ class GuestFileRepositoryTest {
     }
 
     @Test
-    void shouldFindAll() throws IOException {
+    void shouldFindAll() {
         List<Guest> guests = repository.findAll();
 
-        //assertNotNull(guests);
+        assertNotNull(guests);
         assertEquals(1000,guests.size());
     }
 

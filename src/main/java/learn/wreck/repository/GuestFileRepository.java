@@ -20,7 +20,7 @@ public class GuestFileRepository implements GuestRepository{
     // TODO implement these methods and test them
     @Override
     public List<Guest> findAll() {
-        ArrayList<Guest> allGuests = null;
+        ArrayList<Guest> allGuests = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
