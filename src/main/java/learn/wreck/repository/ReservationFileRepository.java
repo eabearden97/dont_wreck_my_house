@@ -62,16 +62,40 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     @Override
-    public boolean editReservation(Reservation reservation) {
+    public boolean editReservation(Reservation reservation, String hostEmail, HostFileRepository hostRepository) throws DataException {
+        if (reservation == null) {
+            return false;
+        }
 
+        List<Reservation> reservations = viewReservationsByHost(hostEmail, hostRepository);
+        for (int i=0; i < reservations.size(); i++) {
+            if (reservations.get(i).getReservationID() == reservation.getReservationID()) {
+                reservations.set(i, reservation);
+                writeAll(reservations, hostRepository.findByEmail(hostEmail).getHostID());
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
-    public boolean cancelReservation(Reservation reservation) {
+    public boolean cancelReservation(Reservation reservation, String hostEmail, HostFileRepository hostRepository) throws DataException {
+        if (reservation == null) {
+            return false;
+        }
+
+        List<Reservation> reservations = viewReservationsByHost(hostEmail, hostRepository);
+        for (int i=0; i < reservations.size(); i++) {
+            if (reservations.get(i).getReservationID() == reservation.getReservationID()) {
+                reservations.remove(reservations.get(i));
+                writeAll(reservations, hostRepository.findByEmail(hostEmail).getHostID());
+                return true;
+            }
+        }
         return false;
     }
 
+    // =========================================================================
     // private methods
 
     private String getFilePath(String hostID) {

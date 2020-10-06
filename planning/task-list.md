@@ -1,12 +1,12 @@
 * Basic Task List and Time Estimations
     * [x] Planning (3 hours)
         * Actual time taken = 3 hours
-    * [ ] Build Models (2 hours)
-        * Actual time taken = 
-    * [ ] Build Data Layer (4 hours)
-        * Actual time taken = 
-    * [ ] Test Data Layer (2 hours)
-        * Actual time taken = 
+    * [x] Build Models (2 hours)
+        * Actual time taken = 1 hour
+    * [x] Build Data Layer (4 hours)
+        * Actual time taken = 4 hours
+    * [x] Test Data Layer (2 hours)
+        * Actual time taken = 2 hours
     * [ ] Build Domain Layer (4 hours)
         * Actual time taken = 
     * [ ] Test Domain Layer (3 hours)

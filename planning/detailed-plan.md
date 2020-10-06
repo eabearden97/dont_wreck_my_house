@@ -61,16 +61,16 @@
                 * [x] BigDecimal total
             * [x] for each class, add necessary variables, constructors, getters, setters
     * ====================================================
-    * [ ] Build Repository Layer (4 hours)
+    * [x] Build Repository Layer (4 hours)
         * [x] make a DataException class
             * extends Exception
         * [x] make a ReservationRepository interface
-        * [ ] make a ReservationFileRepository class that implements the ReservationRepository interface
+        * [x] make a ReservationFileRepository class that implements the ReservationRepository interface
             * Methods (CRUD Operations)
-                * [ ] Create/Make Reservation
-                * [ ] Read/View Reservation
-                * [ ] Update/Edit Reservation
-                * [ ] Remove/Cancel Reservation
+                * [x] Create/Make Reservation
+                * [x] Read/View Reservation
+                * [x] Update/Edit Reservation
+                * [x] Remove/Cancel Reservation
         * [x] make a Host_LocationRepository interface
         * [x] make a Host_LocationFileRepository class that implements the Host_LocationRepository interface
             * Methods (CRUD Operations)
@@ -86,24 +86,21 @@
                     * [x] findByEmail()
                     * [x] findByID()
     * ====================================================
-    * [ ] Test Data Layer (2 hours)
-        * [ ] Create Seed Filepath for data
-        * [ ] Create Test Filepath for data
-            * [ ] Use @BeforeEach to copy over elements from seed to test
-        * [ ] Tests
-            * [ ] Create ReservationFileRepositoryTest
-                * [ ] shouldMakeReservation
-                * [ ] shouldNotMakeReservation
-                    * there will be several of these (under what conditions should it not make the reservation?)
-                * [ ] shouldViewReservation
-                * [ ] shouldNotViewReservation
-                    * there will be several of these (under what conditions should it not make the reservation?)
-                * [ ] shouldEditReservation
-                * [ ] shouldNotEditReservation
-                    * there will be several of these (under what conditions should it not make the reservation?)
-                * [ ] shouldCancelReservation
-                * [ ] shouldNotCancelReservation
-                    * there will be several of these (under what conditions should it not make the reservation?)
+    * [x] Test Data Layer (2 hours)
+        * [x] Create Seed Filepath for data
+        * [x] Create Test Filepath for data
+            * [x] Use @BeforeEach to copy over elements from seed to test
+        * [x] Tests
+            * [x] Create ReservationFileRepositoryTest
+                * [x] shouldMakeReservation
+                * [x] shouldNotMakeNullReservation
+                * [x] shouldViewReservation
+                * [x] shouldEditReservation
+                * [x] shouldNotEditMissingReservation
+                * [x] shouldNotEditNullReservation
+                * [x] shouldCancelReservation
+                * [x] shouldNotCancelMissingReservation
+                * [x] shouldNotCancelNullReservation
             * [x] Create GuestFileRepository Test
                 * [x] shouldFindAll
                 * [x] shouldFindByEmail
