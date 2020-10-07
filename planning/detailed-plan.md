@@ -126,28 +126,28 @@
                     * [ ] validateFields
                     * [ ] validateChildrenExist
         * [x] Make HostService
-            * [ ] Methods
-                * [ ] findAll
-                * [ ] findByEmail
-                * [ ] findByID
-                * [ ] validate
-                    * [ ] validateNulls
-                    * [ ] validateFields
-                    * [ ] validateChildrenExist
+            * [x] Methods
+                * [x] findAll
+                * [x] findByEmail
+                * [x] findByID
+                * [x] validate
+                    * [x] validateNulls
+                    * [x] validateFields
+                    * [x] validateChildrenExist
         * [x] Make GuestService
-            * [ ] Methods
-                * [ ] findAll
-                * [ ] findByEmail
-                * [ ] findByID
-                * [ ] validate
-                    * [ ] validateNulls
-                    * [ ] validateFields
-                    * [ ] validateChildrenExist
+            * [x] Methods
+                * [x] findAll
+                * [x] findByEmail
+                * [x] findByID
+                * [x] validate
+                    * [x] validateNulls
+                    * [x] validateFields
+                    * [x] validateChildrenExist
         * [x] Make Response class
         * [x] Make Result class
     * ====================================================
     * [ ] Test Domain Layer (3 hours)
-        * [ ] Make ReservationFileRepositoryDouble
+        * [x] Make ReservationFileRepositoryDouble
             * [ ] shouldMakeReservation
             * [ ] shouldNotMakeReservation
                 * there will be several of these (under what conditions should it not make the reservation?)
@@ -165,30 +165,20 @@
                 * [ ] one for each possible null value that shouldn't be null
                 * [ ] one or more for each field that could have an invalid value
                 * [ ] one for each child (repository) that shouldn't be null
-        * [ ] Make Host_LocationFileRepositoryDouble
-            * [ ] shouldFindAll
-            * [ ] shouldFindByEmail
-            * [ ] shouldNotMissingEmail
-            * [ ] shouldFindByID
-            * [ ] shouldNotFindMissingID
-            * [ ] shouldNotFindInvalidID
-            * [ ] shouldValidate
-            * [ ] shouldNotValidate
-                * [ ] one for each possible null value that shouldn't be null
-                * [ ] one or more for each field that could have an invalid value
-                * [ ] one for each child (repository) that shouldn't be null
-        * [ ] Make GuestFileRepositoryDouble
-            * [ ] shouldFindAll
-            * [ ] shouldFindByEmail
-            * [ ] shouldNotMissingEmail
-            * [ ] shouldFindByID
-            * [ ] shouldNotFindMissingID
-            * [ ] shouldNotFindInvalidID
-            * [ ] shouldValidate
-            * [ ] shouldNotValidate
-                * [ ] one for each possible null value that shouldn't be null
-                * [ ] one or more for each field that could have an invalid value
-                * [ ] one for each child (repository) that shouldn't be null
+        * [x] Make HostFileRepositoryDouble
+            * [x] shouldFindAll
+            * [x] shouldFindByEmail
+            * [x] shouldNotMissingEmail
+            * [x] shouldFindByID
+            * [x] shouldNotFindMissingID
+            * [x] shouldNotFindInvalidID
+        * [x] Make GuestFileRepositoryDouble
+            * [x] shouldFindAll
+            * [x] shouldFindByEmail
+            * [x] shouldNotMissingEmail
+            * [x] shouldFindByID
+            * [x] shouldNotFindMissingID
+            * [x] shouldNotFindInvalidID
     * ====================================================
     * [ ] Build UI Layer (4 hours)
         * [ ] Make Controller class
@@ -297,5 +287,7 @@
     * [ ] Miscellaneous Time (4 hours)
     * ====================================================
     * [ ] Questions
+        * Is passing a HostRepository and hostEmail the best way 
+            to do the reservationRepository CRUD methods?
         * 
     * ====================================================

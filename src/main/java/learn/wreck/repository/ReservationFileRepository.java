@@ -20,7 +20,7 @@ public class ReservationFileRepository implements ReservationRepository {
 
     @Override
     //
-    public Reservation makeReservation(Reservation newReservation, String hostEmail, HostFileRepository hostRepository) throws DataException {
+    public Reservation makeReservation(Reservation newReservation, String hostEmail, HostRepository hostRepository) throws DataException {
         if (newReservation == null) {
             return null;
         }
@@ -35,13 +35,14 @@ public class ReservationFileRepository implements ReservationRepository {
             }
         }
         newReservation.setReservationID(maxID + 1);
+
         existingReservations.add(newReservation);
         writeAll(existingReservations, hostID);
         return newReservation;
     }
 
     @Override
-    public List<Reservation> viewReservationsByHost(String hostEmail, HostFileRepository hostRepository) {
+    public List<Reservation> viewReservationsByHost(String hostEmail, HostRepository hostRepository) {
         Host host = hostRepository.findByEmail(hostEmail);
         String hostID = host.getHostID();
 
@@ -62,7 +63,7 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     @Override
-    public boolean editReservation(Reservation reservation, String hostEmail, HostFileRepository hostRepository) throws DataException {
+    public boolean editReservation(Reservation reservation, String hostEmail, HostRepository hostRepository) throws DataException {
         if (reservation == null) {
             return false;
         }
@@ -79,7 +80,7 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     @Override
-    public boolean cancelReservation(Reservation reservation, String hostEmail, HostFileRepository hostRepository) throws DataException {
+    public boolean cancelReservation(Reservation reservation, String hostEmail, HostRepository hostRepository) throws DataException {
         if (reservation == null) {
             return false;
         }

@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface ReservationRepository {
 
-    Reservation makeReservation(Reservation reservation, String hostEmail, HostFileRepository hostRepository) throws DataException;
+    Reservation makeReservation(Reservation reservation, String hostEmail, HostRepository hostRepository) throws DataException;
 
-    List<Reservation> viewReservationsByHost(String hostEmail, HostFileRepository hostRepository);
+    List<Reservation> viewReservationsByHost(String hostEmail, HostRepository hostRepository);
 
-    boolean editReservation(Reservation reservation, String hostEmail, HostFileRepository hostRepository) throws DataException;
+    boolean editReservation(Reservation reservation, String hostEmail, HostRepository hostRepository) throws DataException;
 
-    boolean cancelReservation(Reservation reservation, String hostEmail, HostFileRepository hostRepository) throws DataException;
+    boolean cancelReservation(Reservation reservation, String hostEmail, HostRepository hostRepository) throws DataException;
 
 }
