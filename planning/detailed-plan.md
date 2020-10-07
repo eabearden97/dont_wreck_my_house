@@ -115,7 +115,7 @@
                 * [x] shouldNotFindMissingID
     * ====================================================
     * [ ] Build Domain Layer (4 hours)
-        * [ ] Make ReservationService
+        * [x] Make ReservationService
             * [ ] Methods
                 * [ ] makeReservation
                 * [ ] viewReservation
@@ -125,7 +125,7 @@
                     * [ ] validateNulls
                     * [ ] validateFields
                     * [ ] validateChildrenExist
-        * [ ] Make Host_LocationService
+        * [x] Make HostService
             * [ ] Methods
                 * [ ] findAll
                 * [ ] findByEmail
@@ -134,7 +134,7 @@
                     * [ ] validateNulls
                     * [ ] validateFields
                     * [ ] validateChildrenExist
-        * [ ] Make GuestService
+        * [x] Make GuestService
             * [ ] Methods
                 * [ ] findAll
                 * [ ] findByEmail
@@ -143,8 +143,8 @@
                     * [ ] validateNulls
                     * [ ] validateFields
                     * [ ] validateChildrenExist
-        * [ ] Make Response class
-        * [ ] Make Result class
+        * [x] Make Response class
+        * [x] Make Result class
     * ====================================================
     * [ ] Test Domain Layer (3 hours)
         * [ ] Make ReservationFileRepositoryDouble
@@ -295,4 +295,7 @@
                 * do what they did with dates at top of test but with hostID for a specific host/file
     * ====================================================
     * [ ] Miscellaneous Time (4 hours)
+    * ====================================================
+    * [ ] Questions
+        * 
     * ====================================================
