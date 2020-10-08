@@ -32,8 +32,16 @@ public class ReservationService {
         return reservations;
     }
 
-    public Result<Reservation> editReservation(Reservation reservation, String hostEmail) throws DataException {
-        Result<Reservation> result = validate(reservation);
+    public Result<Reservation> editReservation(Reservation reservation1, String hostEmail) throws DataException {
+        Result<Reservation> result = new Result<>();
+
+        if (reservation1 == null) {
+            result.addErrorMessage("Cannot edit with a null reservation.");
+            return result;
+        }
+
+        Reservation reservation = fillInNullReservationFields(reservation1, hostEmail);
+        validate(reservation);
         if (!result.isSuccess()) {
             return result;
         }
@@ -44,14 +52,6 @@ public class ReservationService {
         for (Reservation existingReservation : existingReservations) {
             if (existingReservation.getReservationID() == reservation.getReservationID()) {
                 found = true;
-            }
-            if (existingReservation.getReservationID() == reservation.getReservationID()
-                    && existingReservation.getGuestID() == reservation.getGuestID()
-                    && existingReservation.getTotalPrice() == reservation.getTotalPrice()
-                    && existingReservation.getStartDate() == reservation.getStartDate()
-                    && existingReservation.getEndDate() == reservation.getEndDate()) {
-                result.addErrorMessage("Cannot edit a reservation to be the exact same as before.");
-                return result;
             }
         }
 
@@ -101,6 +101,7 @@ public class ReservationService {
 
         if (reservation == (null)) {
             result.addErrorMessage("Cannot make a null reservation.");
+            return result;
         }
         if (reservation.getStartDate() == null) {
             result.addErrorMessage("Cannot make a reservation without a start date.");
@@ -119,20 +120,49 @@ public class ReservationService {
     }
 
     private Result<Reservation> validateFields(Reservation reservation, Result result) {
-        if (reservation.getStartDate().isAfter(reservation.getEndDate())) {
-            result.addErrorMessage("Start date must come before the end date.");
-        }
         if (reservation.getStartDate().isBefore(LocalDate.now())) {
             result.addErrorMessage("Start date must be in the future.");
         }
         if (reservation.getEndDate().isBefore(LocalDate.now())) {
             result.addErrorMessage("End date must be in the future.");
         }
+        if (reservation.getStartDate().isAfter(reservation.getEndDate())) {
+            result.addErrorMessage("Start date must come before the end date.");
+        }
+        if (reservation.getStartDate().isEqual(reservation.getEndDate())) {
+            result.addErrorMessage("Must make a reservation for at least one night.");
+        }
         if (reservation.getTotalPrice().compareTo(BigDecimal.ZERO) <= 0) {
             result.addErrorMessage("Total price must be greater than $0.00");
         }
 
         return result;
+    }
+
+    // TODO: should this be in the domain layer or the data layer?
+    private Reservation fillInNullReservationFields(Reservation reservation, String hostEmail) {
+        List<Reservation> existingReservations = reservationRepository.viewReservationsByHost(hostEmail, hostRepository);
+        Reservation reservationToEdit = null;
+        for (Reservation existingReservation : existingReservations) {
+            if (existingReservation.getReservationID() == reservation.getReservationID()) {
+                reservationToEdit = existingReservation;
+            }
+        }
+
+        if (reservation.getStartDate() == null) {
+            reservation.setStartDate(reservationToEdit.getStartDate());
+        }
+        if (reservation.getEndDate() == null) {
+            reservation.setEndDate(reservationToEdit.getEndDate());
+        }
+        if (reservation.getTotalPrice() == null) {
+            reservation.setTotalPrice(reservationToEdit.getTotalPrice());
+        }
+        if (reservation.getGuestID() == 0) {
+            reservation.setGuestID(reservationToEdit.getGuestID());
+        }
+
+        return reservation;
     }
 
 }

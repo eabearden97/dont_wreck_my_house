@@ -114,17 +114,16 @@
                 * [x] shouldFindByID
                 * [x] shouldNotFindMissingID
     * ====================================================
-    * [ ] Build Domain Layer (4 hours)
+    * [x] Build Domain Layer (4 hours)
         * [x] Make ReservationService
-            * [ ] Methods
-                * [ ] makeReservation
-                * [ ] viewReservation
-                * [ ] editReservation
-                * [ ] cancelReservation
-                * [ ] validate
-                    * [ ] validateNulls
-                    * [ ] validateFields
-                    * [ ] validateChildrenExist
+            * [x] Methods
+                * [x] makeReservation
+                * [x] viewReservation
+                * [x] editReservation
+                * [x] cancelReservation
+                * [x] validate
+                    * [x] validateNulls
+                    * [x] validateFields
         * [x] Make HostService
             * [x] Methods
                 * [x] findAll
@@ -146,25 +145,25 @@
         * [x] Make Response class
         * [x] Make Result class
     * ====================================================
-    * [ ] Test Domain Layer (3 hours)
+    * [x] Test Domain Layer (3 hours)
         * [x] Make ReservationFileRepositoryDouble
-            * [ ] shouldMakeReservation
-            * [ ] shouldNotMakeReservation
+            * [x] shouldMakeReservation
+            * [x] shouldNotMakeReservation
                 * there will be several of these (under what conditions should it not make the reservation?)
-            * [ ] shouldViewReservation
-            * [ ] shouldNotViewReservation
+            * [x] shouldViewReservation
+            * [x] shouldNotViewReservation
                 * there will be several of these (under what conditions should it not make the reservation?)
-            * [ ] shouldEditReservation
-            * [ ] shouldNotEditReservation
+            * [x] shouldEditReservation
+            * [x] shouldNotEditReservation
                 * there will be several of these (under what conditions should it not make the reservation?)
-            * [ ] shouldCancelReservation
-            * [ ] shouldNotCancelReservation
+            * [x] shouldCancelReservation
+            * [x] shouldNotCancelReservation
                 * there will be several of these (under what conditions should it not make the reservation?)
-            * [ ] shouldValidate
-            * [ ] shouldNotValidate
-                * [ ] one for each possible null value that shouldn't be null
-                * [ ] one or more for each field that could have an invalid value
-                * [ ] one for each child (repository) that shouldn't be null
+            * [x] shouldValidate
+            * [x] shouldNotValidate
+                * [x] one for each possible null value that shouldn't be null
+                * [x] one or more for each field that could have an invalid value
+                * [x] one for each child (repository) that shouldn't be null
         * [x] Make HostFileRepositoryDouble
             * [x] shouldFindAll
             * [x] shouldFindByEmail
@@ -283,11 +282,18 @@
                 ForageFileRepositoryTest where the test only does 1 date/file
                 * if I do this, add a test that makes sure you can't add a reservation for the wrong host
                 * do what they did with dates at top of test but with hostID for a specific host/file
+        * [ ] ReservationServiceTest create a reservation object that I can call in each test
+            * maybe just make one edit to that reservation per test to accomplish goal of test
+        * [ ] ReservationServiceTest make it so that you have to edit at least one parameter in editReservation
     * ====================================================
     * [ ] Miscellaneous Time (4 hours)
     * ====================================================
     * [ ] Questions
         * Is passing a HostRepository and hostEmail the best way 
             to do the reservationRepository CRUD methods?
-        * 
+        * For each CRUD operation in the reservationService, should I pass in each parameter
+            that the user will give me?
+            * For editReservation, should I pass in guestID (will be deduced from guestEmail provided by user)
+            * for editReservation, should I pass in hostEmail (I already did this)
+            * for editReservation, should I pass in reservationID(right now I hard code it in for tests)
     * ====================================================

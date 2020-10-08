@@ -7,10 +7,10 @@
         * Actual time taken = 4 hours
     * [x] Test Data Layer (2 hours)
         * Actual time taken = 2 hours
-    * [ ] Build Domain Layer (4 hours)
-        * Actual time taken = 
-    * [ ] Test Domain Layer (3 hours)
-        * Actual time taken = 
+    * [x] Build Domain Layer (4 hours)
+        * Actual time taken = 4 hours
+    * [x] Test Domain Layer (3 hours)
+        * Actual time taken = 5 hours
     * [ ] Build UI Layer (4 hours)
         * Actual time taken = 
     * [ ] Debugging (4 hours)
