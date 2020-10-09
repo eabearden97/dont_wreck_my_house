@@ -2,9 +2,11 @@ package learn.wreck.service;
 
 import learn.wreck.models.Host;
 import learn.wreck.repository.HostRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class HostService {
 
     private final HostRepository repository;

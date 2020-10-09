@@ -2,6 +2,8 @@ package learn.wreck.repository;
 
 import learn.wreck.models.Host;
 import learn.wreck.models.Reservation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -10,11 +12,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ReservationFileRepository implements ReservationRepository {
     private final String directory;
     private final String HEADER = "id,start_date,end_date,guest_id,total";
 
-    public ReservationFileRepository(String directory) {
+    public ReservationFileRepository(@Value("${reservationDirectory}") String directory) {
         this.directory = directory;
     }
 

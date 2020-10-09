@@ -1,8 +1,12 @@
 package learn.wreck.ui;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Scanner;
 
+@Component
 public class ConsoleIO {
+
     private final Scanner scanner = new Scanner(System.in);
 
     public void print(String message) {
@@ -14,7 +18,6 @@ public class ConsoleIO {
     public void printf(String format, Object... values) {
         System.out.printf(format, values);
     }
-
 
 
     public int readInt(String prompt) {

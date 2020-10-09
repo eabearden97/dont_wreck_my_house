@@ -1,10 +1,11 @@
 package learn.wreck.ui;
 
 public enum MainMenuOption {
-    MAKE_RESERVATION(1, "Make Reservation"),
-    EDIT_RESERVATION(2, "Edit Reservation"),
-    CANCEL_RESERVATION(3, "Cancel a Reservation"),
-    EXIT(4, "Exit");
+    VIEW_RESERVATIONS(1, "View Existing Reservations"),
+    MAKE_RESERVATION(2, "Make a Reservation"),
+    EDIT_RESERVATION(3, "Edit a Reservation"),
+    CANCEL_RESERVATION(4, "Cancel a Reservation"),
+    EXIT(5, "Exit");
 
     private String optionTitle;
     private int value;

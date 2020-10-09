@@ -2,11 +2,13 @@ package learn.wreck.service;
 
 import learn.wreck.models.Reservation;
 import learn.wreck.repository.*;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
