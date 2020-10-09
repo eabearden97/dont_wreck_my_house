@@ -180,7 +180,7 @@
             * [x] shouldNotFindInvalidID
     * ====================================================
     * [ ] Build UI Layer (4 hours)
-        * [ ] Make Controller class
+        * [x] Make Controller class
             * Methods
                 * run()
                 * runAppLoop()
@@ -188,14 +188,14 @@
                 * makeReservation()
                 * editReservation()
                 * cancelReservation()
-        * [ ] Make View class
+        * [x] Make View class
             * connection between Controller and ConsoleIO class
             * take input/output from ConsoleIO class and put results in controller class
-        * [ ] Make ConsoleIO class
+        * [x] Make ConsoleIO class
             * all input and output methods should be here
             * anything that the user sees
             * anything that is read
-        * [ ] Make MainMenuOption enumeration
+        * [x] Make MainMenuOption enumeration
             * EXIT
             * VIEW_RESERVATIONS
             * MAKE_RESERVATION
@@ -204,70 +204,70 @@
         * Notes from LMS
             * Main Menu has 5 options
             
-                * Exit
+                * [x] Exit
                 
-                * View Reservations for Host
-                    * enter a Host email
-                        * if Host not found, display a message
-                        * if Host has no reservations, display a message
-                    * this produces all reservations for that Host/Location
-                        * show the Guest, dates, totals, etc. for each reservation
-                        * sort reservations by date
+                * [x] View Reservations for Host
+                    * [x] enter a Host email
+                        * [x] if Host not found, display a message
+                        * [x] if Host has no reservations, display a message
+                    * [x] this produces all reservations for that Host/Location
+                        * [x] show the Guest, dates, totals, etc. for each reservation
+                        * [x] sort reservations by date
                         
                 * Make a Reservation
-                    * enter a Guest email (required)
-                        * if Guest not found, display a message
-                    * enter a Host email (required)
-                        * if Host not found, display a message
-                    * this produces all existing reservations for that Host/Location
-                    * enter a start date (required)
-                        * must be in the future
-                    * enter an end date (required)
-                        * start date must come before end date
-                        * dates cannot overlap existing reservations dates
-                    * produce a summary
-                        * start date
-                        * end date
-                        * total price
-                            * based on weekday and weekend rates
-                        * "Is this okay? [y/n]"
-                    * display success/failure message
-                        * if successful, save the reservation in data
+                    * [x] enter a Guest email (required)
+                        * [x] if Guest not found, display a message
+                    * [x] enter a Host email (required)
+                        * [x] if Host not found, display a message
+                    * [x] this produces all existing reservations for that Host/Location
+                    * [x] enter a start date (required)
+                        * [x] must be in the future
+                    * [x] enter an end date (required)
+                        * [x] start date must come before end date
+                        * [ ] dates cannot overlap existing reservations dates
+                    * [ ] produce a summary
+                        * [ ] start date
+                        * [ ] end date
+                        * [ ] total price
+                            * [ ] based on weekday and weekend rates
+                        * [ ] "Is this okay? [y/n]"
+                    * [x] display success/failure message
+                        * [x] if successful, save the reservation in data
                         
-                * Edit a Reservation
-                    * Note: allow users to press "Enter" to keep existing data
-                    * enter a Guest email (required)
-                        * if Guest not found, display a message
-                    * enter a Host email (required)
-                    * this produces all existing reservation for that Host/Location and Guest combo
-                    * enter a reservation ID
-                    * display start date and allow user to enter a new one
-                        * must be in the future
-                    * display end date and allow user to enter a new one
-                        * start date must come before end date
-                        * dates cannot overlap existing reservations dates
-                    * produce a summary
-                        * start date
-                        * end date
-                        * total price
-                        * "Is this okay? [y/n]"
-                    * display success/failure message
+                * [ ] Edit a Reservation
+                    * [ ] Note: allow users to press "Enter" to keep existing data
+                    * [ ] enter a Guest email (required)
+                        * [ ] if Guest not found, display a message
+                    * [ ] enter a Host email (required)
+                    * [ ] this produces all existing reservation for that Host/Location and Guest combo
+                    * [ ] enter a reservation ID
+                    * [ ] display start date and allow user to enter a new one
+                        * [ ] must be in the future
+                    * [ ] display end date and allow user to enter a new one
+                        * [ ] start date must come before end date
+                        * [ ] dates cannot overlap existing reservations dates
+                    * [ ] produce a summary
+                        * [ ] start date
+                        * [ ] end date
+                        * [ ] total price
+                        * [ ] "Is this okay? [y/n]"
+                    * [ ] display success/failure message
                     
-                * Cancel a Reservation
-                    * enter a Host email
-                        * if Host not found, display a message
-                        * if Host has no reservations, display a message
-                    * this produces all reservations for that Host/Location
-                        * only display future reservation (cannot cancel past reservation)
-                        * show the Guest, dates, totals, etc. for each reservation
-                        * sort reservations by date
-                    * enter a reservation ID
-                        * display success/failure message
-        * [ ] Make App class
-            * should just have a few line
-                * make new Controller object
-                * call controller.run()
-        * [ ] Add Spring DI Annotations
+                * [ ] Cancel a Reservation
+                    * [ ] enter a Host email
+                        * [ ] if Host not found, display a message
+                        * [ ] if Host has no reservations, display a message
+                    * [ ] this produces all reservations for that Host/Location
+                        * [ ] only display future reservation (cannot cancel past reservation)
+                        * [ ] show the Guest, dates, totals, etc. for each reservation
+                        * [ ] sort reservations by date
+                    * [ ] enter a reservation ID
+                        * [ ] display success/failure message
+        * [x] Make App class
+            * [x] should just have a few line
+                * [x] make new Controller object
+                * [x] call controller.run()
+        * [x] Add Spring DI Annotations
     * ====================================================
     * [ ] Debugging (4 hours)
     * ====================================================
@@ -296,4 +296,7 @@
             * For editReservation, should I pass in guestID (will be deduced from guestEmail provided by user)
             * for editReservation, should I pass in hostEmail (I already did this)
             * for editReservation, should I pass in reservationID(right now I hard code it in for tests)
+        * When using viewReservation, I currently required the administrator to enter
+            a valid host email before continuing
+            * Should this be how I do it?
     * ====================================================

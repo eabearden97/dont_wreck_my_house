@@ -20,11 +20,10 @@ public class ReservationService {
     }
 
     public Result<Reservation> makeReservation(Reservation reservation, String hostEmail) throws DataException {
-        Result<Reservation> result = validate(reservation);
+        Result<Reservation> result = validate(reservation, hostEmail);
         if (!result.isSuccess()) {
             return result;
         }
-
         result.setPayload(reservationRepository.makeReservation(reservation, hostEmail, hostRepository));
         return result;
     }
@@ -43,7 +42,8 @@ public class ReservationService {
         }
 
         Reservation reservation = fillInNullReservationFields(reservation1, hostEmail);
-        validate(reservation);
+        // TODO: validate sets payload!
+        validate(reservation, hostEmail);
         if (!result.isSuccess()) {
             return result;
         }
@@ -84,13 +84,19 @@ public class ReservationService {
 
     // private methods
 
-    private Result<Reservation> validate(Reservation reservation) {
+    private Result<Reservation> validate(Reservation reservation, String hostEmail) {
         Result<Reservation> result = validateNulls(reservation);
         if (!result.isSuccess()) {
             return result;
         }
 
-        validateFields(reservation, result);
+        result = validateFields(reservation, result);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        // TODO: add this to validateFields
+        result = validateOverlappingDates(reservation, hostEmail);
         if (!result.isSuccess()) {
             return result;
         }
@@ -134,8 +140,8 @@ public class ReservationService {
         if (reservation.getStartDate().isEqual(reservation.getEndDate())) {
             result.addErrorMessage("Must make a reservation for at least one night.");
         }
-        if (reservation.getTotalPrice().compareTo(BigDecimal.ZERO) <= 0) {
-            result.addErrorMessage("Total price must be greater than $0.00");
+        if (reservation.getTotalPrice().compareTo(BigDecimal.ZERO) < 0) {
+            result.addErrorMessage("Total price must be at least $0.00");
         }
 
         return result;
@@ -165,6 +171,26 @@ public class ReservationService {
         }
 
         return reservation;
+    }
+
+    public Result<Reservation> validateOverlappingDates(Reservation reservation, String hostEmail) {
+        Result<Reservation> result = new Result<>();
+        List<Reservation> existingReservations = reservationRepository.viewReservationsByHost(hostEmail, hostRepository);
+        for (Reservation existingReservation : existingReservations) {
+            if (reservation.getStartDate().isBefore(existingReservation.getStartDate()) &&
+                    reservation.getEndDate().isBefore(existingReservation.getStartDate())) {
+            } else if (reservation.getStartDate().isBefore(existingReservation.getStartDate()) &&
+                    reservation.getEndDate().isEqual(existingReservation.getStartDate())){
+            } else if (reservation.getStartDate().isEqual(existingReservation.getEndDate()) &&
+                    reservation.getEndDate().isAfter(existingReservation.getEndDate())){
+            } else if (reservation.getStartDate().isAfter(existingReservation.getEndDate()) &&
+                    reservation.getEndDate().isAfter(existingReservation.getEndDate())) {
+            } else {
+                result.addErrorMessage("Cannot make reservation with overlapping dates.");
+                return result;
+            }
+        }
+        return result;
     }
 
 }

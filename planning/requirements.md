@@ -6,7 +6,7 @@
         * [ ] Administrator can cancel a future reservation
     * Technical Requirements
         * [x] Must be a Maven project
-        * [ ] Spring dependency injection with XML or Annotations
+        * [x] Spring dependency injection with XML or Annotations
         * [ ] Financial math done using BigDecimal
         * [ ] Dates must be LocalDate, not strings
         * [ ] All file data must be represented by models in the application

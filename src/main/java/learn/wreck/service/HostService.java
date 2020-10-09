@@ -19,7 +19,6 @@ public class HostService {
         return repository.findAll();
     }
 
-    // TODO ask question about why I wouldn't use findByEmail method from repository
     public Host findByEmail(String hostEmail) {
         List<Host> allHosts = repository.findAll();
         for (Host host : allHosts) {
@@ -27,6 +26,9 @@ public class HostService {
                 return host;
             }
         }
+        Result<Host> result = new Result<>();
+        result.addErrorMessage("This host does not exist");
+        System.out.println(result.getMessages());
         return null;
     }
 

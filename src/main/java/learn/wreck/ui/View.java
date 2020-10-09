@@ -4,6 +4,7 @@ import learn.wreck.models.Guest;
 import learn.wreck.models.Reservation;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,7 +43,22 @@ public class View {
         io.println(ex.getMessage());
     }
 
+    public void displayStatus(boolean success, List<String> messages) {
+        displayHeader(success ? "Success" : "Error");
+        for (String message : messages) {
+            io.println(message);
+        }
+    }
+
+    public void displayStatus(boolean success, String message) {
+        displayStatus(success, List.of(message));
+    }
+
     public void formatReservations(List<Reservation> reservations, List<Guest> guests) {
+        if (reservations.size() == 0) {
+            io.println("There are no reservations for this host.");
+        }
+
         for (Reservation reservation : reservations) {
             String firstName = null;
             String lastName = null;
@@ -73,12 +89,12 @@ public class View {
         return orderedReservations;
     }
 
-    public String readHostEmail() {
-        return io.readRequiredString("Host Email: ");
+    public String readEmail(String prompt) {
+        return io.readRequiredString(prompt);
     }
 
 
-
-
-
+    public LocalDate readDate(String prompt) {
+        return io.readDate(prompt);
+    }
 }

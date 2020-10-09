@@ -2,6 +2,9 @@ package learn.wreck.ui;
 
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 @Component
@@ -46,4 +49,15 @@ public class ConsoleIO {
     }
 
 
+    public LocalDate readDate(String prompt) {
+        while (true) {
+            String input = readRequiredString(prompt);
+            try {
+                return LocalDate.parse(input, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            } catch (DateTimeParseException ex) {
+                println("Please enter date in MM/dd/yyyy format.");
+            }
+        }
+
+    }
 }

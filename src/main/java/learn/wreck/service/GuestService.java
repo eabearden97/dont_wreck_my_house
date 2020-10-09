@@ -26,6 +26,9 @@ public class GuestService {
                 return guest;
             }
         }
+        Result<Guest> result = new Result<>();
+        result.addErrorMessage("This guest does not exist");
+        System.out.println(result.getMessages());
         return null;
     }
 

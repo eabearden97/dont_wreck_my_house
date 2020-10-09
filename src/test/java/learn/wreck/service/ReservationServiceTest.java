@@ -188,7 +188,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    void shouldNotMakeReservationWithPriceEqualsZero() throws DataException {
+    void shouldMakeReservationWithPriceEqualsZero() throws DataException {
         Reservation reservation = new Reservation();
         reservation.setStartDate(LocalDate.of(2022,5,5));
         reservation.setEndDate(LocalDate.of(2022,5,10));
@@ -200,9 +200,195 @@ class ReservationServiceTest {
         List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
 
         assertNotNull(reservations);
+        assertEquals(2, reservations.size());
+    }
+
+    @Test
+    void shouldMakeReservationWithEndDateBeforeExistingStartDate() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,3));
+        reservation.setEndDate(LocalDate.of(2025,8,6));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
+        assertEquals(2, reservations.size());
+    }
+
+    @Test
+    void shouldMakeReservationWithEndDateEqualsExistingStartDate() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,3));
+        reservation.setEndDate(LocalDate.of(2025,8,8));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
+        assertEquals(2, reservations.size());
+    }
+
+    @Test
+    void shouldMakeReservationWithStartDateEqualsExistingEndDate() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,13));
+        reservation.setEndDate(LocalDate.of(2025,8,16));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
+        assertEquals(2, reservations.size());
+    }
+
+    @Test
+    void shouldMakeReservationWithStartDateAfterExistingEndDate() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,14));
+        reservation.setEndDate(LocalDate.of(2025,8,16));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
+        assertEquals(2, reservations.size());
+    }
+
+    @Test
+    void shouldNotMakeReservationWithEndDateAfterExistingStartDate() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,3));
+        reservation.setEndDate(LocalDate.of(2025,8,10));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
         assertEquals(1, reservations.size());
     }
 
+    @Test
+    void shouldNotMakeReservationWithStartDateEqualsExistingStartDateAndEndDateBeforeExistingEndDate() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,8));
+        reservation.setEndDate(LocalDate.of(2025,8,10));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
+        assertEquals(1, reservations.size());
+    }
+
+    @Test
+    void shouldNotMakeReservationWithSameDates() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,8));
+        reservation.setEndDate(LocalDate.of(2025,8,13));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
+        assertEquals(1, reservations.size());
+    }
+
+    @Test
+    void shouldNotMakeReservationWithStartDateEqualsExistingStartDateAndEndDateAfterExistingEndDate() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,8));
+        reservation.setEndDate(LocalDate.of(2025,8,15));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
+        assertEquals(1, reservations.size());
+    }
+
+    @Test
+    void shouldNotMakeReservationWithStartDateAfterExistingStartDateAndEndDateBeforeExistingEndDate() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,9));
+        reservation.setEndDate(LocalDate.of(2025,8,10));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
+        assertEquals(1, reservations.size());
+    }
+
+    @Test
+    void shouldNotMakeReservationWithStartDateAfterExistingStartDateAndEndDateEqualsExistingEndDate() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,9));
+        reservation.setEndDate(LocalDate.of(2025,8,13));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
+        assertEquals(1, reservations.size());
+    }
+
+    @Test
+    void shouldNotMakeReservationWithStartDateAfterExistingStartDateAndEndDateAfterExistingEndDate() throws DataException {
+        // 8/8 - 8/13
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2025,8,9));
+        reservation.setEndDate(LocalDate.of(2025,8,15));
+        reservation.setTotalPrice(new BigDecimal(500));
+        reservation.setGuestID(7);
+        reservation.setReservationID(10);
+
+        service.makeReservation(reservation, hostEmailAddress);
+        List<Reservation> reservations = service.viewReservationByHost(hostEmailAddress);
+
+        assertNotNull(reservations);
+        assertEquals(1, reservations.size());
+    }
 
 
 
