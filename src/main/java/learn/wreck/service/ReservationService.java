@@ -24,6 +24,11 @@ public class ReservationService {
         if (!result.isSuccess()) {
             return result;
         }
+        return result;
+    }
+
+    public Result<Reservation> setReservation(Reservation reservation, String hostEmail) throws DataException {
+        Result<Reservation> result = new Result<>();
         result.setPayload(reservationRepository.makeReservation(reservation, hostEmail, hostRepository));
         return result;
     }
@@ -42,7 +47,6 @@ public class ReservationService {
         }
 
         Reservation reservation = fillInNullReservationFields(reservation1, hostEmail);
-        // TODO: validate sets payload!
         validate(reservation, hostEmail);
         if (!result.isSuccess()) {
             return result;

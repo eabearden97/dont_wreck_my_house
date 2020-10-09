@@ -2,6 +2,7 @@ package learn.wreck.ui;
 
 import learn.wreck.models.Guest;
 import learn.wreck.models.Reservation;
+import learn.wreck.service.Result;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -97,4 +98,29 @@ public class View {
     public LocalDate readDate(String prompt) {
         return io.readDate(prompt);
     }
+
+    public void displaySummary(Reservation reservation) {
+        io.printf("Start: %s%n", reservation.getStartDate().toString());
+        io.printf("End: %s%n", reservation.getEndDate().toString());
+        io.printf("Total: %s%n", reservation.getTotalPrice());
+    }
+
+    public Result<Reservation> getConfirmation() {
+        Result<Reservation> result = new Result<>();
+        boolean valid = false;
+        while (!valid) {
+            String answer = io.readRequiredString("Is this okay? [y/n]: ");
+            if (answer.equalsIgnoreCase("y")) {
+                valid = true;
+            } else if (answer.equalsIgnoreCase("n")) {
+                valid = true;
+                result.addErrorMessage("Reservation not confirmed.");
+            }
+        }
+        return result;
+    }
+
+
+
+
 }

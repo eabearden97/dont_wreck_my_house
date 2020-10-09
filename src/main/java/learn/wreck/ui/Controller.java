@@ -86,9 +86,15 @@ public class Controller {
         reservation.setTotalPrice(calculatePrice(host, startDate, endDate));
 
         Result<Reservation> result = reservationService.makeReservation(reservation, hostEmail);
-        if (!result.isSuccess()) {
-            view.displayStatus(false, result.getMessages());
-        } else {
+        if (result.isSuccess()) {
+            view.displayHeader("Summary");
+            view.displaySummary(reservation);
+            result = view.getConfirmation();
+        }
+
+
+        if (result.isSuccess()) {
+            result = reservationService.setReservation(reservation, hostEmail);
             String successMessage = String.format("Reservation %s made successfully", result.getPayload().getReservationID());
             view.displayStatus(true, successMessage);
         }
