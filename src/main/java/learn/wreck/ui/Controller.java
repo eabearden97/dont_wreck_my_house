@@ -8,11 +8,13 @@ import learn.wreck.service.GuestService;
 import learn.wreck.service.HostService;
 import learn.wreck.service.ReservationService;
 import learn.wreck.service.Result;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -100,7 +102,61 @@ public class Controller {
         }
     }
 
-    private void editReservation() {
+    private void editReservation() throws DataException {
+        view.displayHeader("Edit a Reservation");
+        Host host = findHostByEmail();
+        Guest guest = findGuestByEmail();
+        displayReservationsByHostAndGuest(host, guest);
+
+        // TODO: make this part of reservation service and test
+        List<Reservation> hostAndGuestReservations = new ArrayList<>();
+        List<Reservation> reservations = reservationService.viewReservationByHost(host.getEmailAddress());
+        for (Reservation reservation : reservations) {
+            if (reservation.getGuestID() == guest.getGuestID()) {
+                hostAndGuestReservations.add(reservation);
+            }
+        }
+
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (Reservation reservation : hostAndGuestReservations) {
+            if (reservation.getReservationID() >= max) {
+                max = reservation.getReservationID();
+            } if (reservation.getReservationID() <= min) {
+                min = reservation.getReservationID();
+            }
+        }
+        int reservationID = view.getReservationID("Enter a Reservation ID to edit: ", min, max);
+        view.displayHeader(String.format("Editing Reservation %d", reservationID));
+
+        LocalDate newStartDate = null;
+        LocalDate newEndDate = null;
+        for (Reservation reservation : hostAndGuestReservations) {
+            if (reservation.getReservationID() == reservationID) {
+                newStartDate = view.readDate(String.format("Start (%s): ", reservation.getStartDate()));
+                newEndDate = view.readDate(String.format("End (%s): ", reservation.getEndDate()));
+            }
+        }
+        Reservation reservation = new Reservation();
+        reservation.setGuestID(guest.getGuestID());
+        reservation.setStartDate(newStartDate);
+        reservation.setEndDate(newEndDate);
+        reservation.setTotalPrice(calculatePrice(host,newStartDate,newEndDate));
+        reservation.setReservationID(reservationID);
+
+        Result<Reservation> result = reservationService.editReservation(reservation, host.getEmailAddress());
+        if (result.isSuccess()) {
+            view.displayHeader("Summary");
+            view.displaySummary(reservation);
+            result = view.getConfirmation();
+        }
+
+
+        if (result.isSuccess()) {
+            result = reservationService.setReservation(reservation, host.getEmailAddress());
+            String successMessage = String.format("Reservation %s made successfully", result.getPayload().getReservationID());
+            view.displayStatus(true, successMessage);
+        }
     }
 
     private void cancelReservation() {
@@ -130,6 +186,21 @@ public class Controller {
         List<Reservation> reservations = reservationService.viewReservationByHost(hostEmail);
         List<Guest> guests = guestService.findAll();
         List<Reservation> orderedReservations = view.orderReservations(reservations);
+        view.formatReservations(orderedReservations, guests);
+    }
+
+    private void displayReservationsByHostAndGuest(Host host, Guest guest) {
+        String hostEmail = host.getEmailAddress();
+        view.displayHeader(host.getLastName() + ": " + host.getCity() + ", " + host.getState());
+        List<Reservation> hostAndGuestReservations = new ArrayList<>();
+        List<Reservation> reservations = reservationService.viewReservationByHost(hostEmail);
+        for (Reservation reservation : reservations) {
+            if (reservation.getGuestID() == guest.getGuestID()) {
+                hostAndGuestReservations.add(reservation);
+            }
+        }
+        List<Guest> guests = guestService.findAll();
+        List<Reservation> orderedReservations = view.orderReservations(hostAndGuestReservations);
         view.formatReservations(orderedReservations, guests);
     }
 

@@ -30,7 +30,7 @@ public class View {
         }
 
         String message = String.format("Select [%s-%s]: ", min, max);
-        return MainMenuOption.fromValue(io.readInt(message));
+        return MainMenuOption.fromValue(io.readInt(message, min, max));
     }
 
     public void displayHeader(String message) {
@@ -71,7 +71,7 @@ public class View {
                     guestEmail = guest.getEmailAddress();
                 }
             }
-            String formattedReservation = String.format("ID: %d, %s - %s, Guest: %s, %s, Email: %s",
+            String formattedReservation = String.format("ID: %-4d %s - %-12s Guest: %s %s ... Email: %s",
                     reservation.getReservationID(),
                     reservation.getStartDate().toString(),
                     reservation.getEndDate().toString(),
@@ -86,7 +86,6 @@ public class View {
         List<Reservation> orderedReservations = reservations.stream()
                 .sorted(Comparator.comparing(Reservation::getStartDate))
                 .collect(Collectors.toList());
-
         return orderedReservations;
     }
 
@@ -102,7 +101,8 @@ public class View {
     public void displaySummary(Reservation reservation) {
         io.printf("Start: %s%n", reservation.getStartDate().toString());
         io.printf("End: %s%n", reservation.getEndDate().toString());
-        io.printf("Total: %s%n", reservation.getTotalPrice());
+        String formattedPrice = String.format("$%s", reservation.getTotalPrice());
+        io.printf("Total: %s%n", formattedPrice);
     }
 
     public Result<Reservation> getConfirmation() {
@@ -119,6 +119,11 @@ public class View {
         }
         return result;
     }
+
+    public int getReservationID(String prompt, int min, int max) {
+        return io.readInt(prompt, min, max);
+    }
+
 
 
 

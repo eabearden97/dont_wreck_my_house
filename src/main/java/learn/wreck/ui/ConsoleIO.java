@@ -33,6 +33,19 @@ public class ConsoleIO {
         }
     }
 
+    public int readInt(String prompt, int min, int max) {
+        while (true) {
+            try {
+                int result = Integer.parseInt(readRequiredString(prompt));
+                if (result >= min && result <= max) {
+                    return result;
+                }
+            } catch (NumberFormatException ex) {
+                printf("Error: Enter a valid number between %f and %f.%n", min, max);
+            }
+        }
+    }
+
     public String readString(String prompt) {
         print(prompt);
         return scanner.nextLine();
