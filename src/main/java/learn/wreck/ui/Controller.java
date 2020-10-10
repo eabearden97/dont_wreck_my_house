@@ -144,17 +144,16 @@ public class Controller {
         reservation.setTotalPrice(calculatePrice(host,newStartDate,newEndDate));
         reservation.setReservationID(reservationID);
 
-        Result<Reservation> result = reservationService.editReservation(reservation, host.getEmailAddress());
+        view.displayHeader("Summary");
+        view.displaySummary(reservation);
+
+        Result<Reservation> result = view.getConfirmation();
         if (result.isSuccess()) {
-            view.displayHeader("Summary");
-            view.displaySummary(reservation);
-            result = view.getConfirmation();
+            result = reservationService.editReservation(reservation, host.getEmailAddress());
         }
 
-
         if (result.isSuccess()) {
-            result = reservationService.setReservation(reservation, host.getEmailAddress());
-            String successMessage = String.format("Reservation %s made successfully", result.getPayload().getReservationID());
+            String successMessage = String.format("Reservation %s made successfully", reservation.getReservationID());
             view.displayStatus(true, successMessage);
         }
     }
