@@ -29,7 +29,9 @@ public class ReservationService {
 
     public Result<Reservation> setReservation(Reservation reservation, String hostEmail) throws DataException {
         Result<Reservation> result = new Result<>();
-        result.setPayload(reservationRepository.makeReservation(reservation, hostEmail, hostRepository));
+        if (reservation != null) {
+            result.setPayload(reservationRepository.makeReservation(reservation, hostEmail, hostRepository));
+        }
         return result;
     }
 
@@ -46,8 +48,10 @@ public class ReservationService {
             return result;
         }
 
+        // TODO fillInNullFields should be taken away because I deal with filling in nulls in UI layer
+            // at this point, there shouldn't be any nulls
         Reservation reservation = fillInNullReservationFields(reservation1, hostEmail);
-        validate(reservation, hostEmail);
+        result = validate(reservation, hostEmail);
         if (!result.isSuccess()) {
             return result;
         }
@@ -181,17 +185,19 @@ public class ReservationService {
         Result<Reservation> result = new Result<>();
         List<Reservation> existingReservations = reservationRepository.viewReservationsByHost(hostEmail, hostRepository);
         for (Reservation existingReservation : existingReservations) {
-            if (reservation.getStartDate().isBefore(existingReservation.getStartDate()) &&
-                    reservation.getEndDate().isBefore(existingReservation.getStartDate())) {
-            } else if (reservation.getStartDate().isBefore(existingReservation.getStartDate()) &&
-                    reservation.getEndDate().isEqual(existingReservation.getStartDate())){
-            } else if (reservation.getStartDate().isEqual(existingReservation.getEndDate()) &&
-                    reservation.getEndDate().isAfter(existingReservation.getEndDate())){
-            } else if (reservation.getStartDate().isAfter(existingReservation.getEndDate()) &&
-                    reservation.getEndDate().isAfter(existingReservation.getEndDate())) {
-            } else {
-                result.addErrorMessage("Cannot make reservation with overlapping dates.");
-                return result;
+            if (existingReservation.getReservationID() != reservation.getReservationID()) {
+                if (reservation.getStartDate().isBefore(existingReservation.getStartDate()) &&
+                        reservation.getEndDate().isBefore(existingReservation.getStartDate())) {
+                } else if (reservation.getStartDate().isBefore(existingReservation.getStartDate()) &&
+                        reservation.getEndDate().isEqual(existingReservation.getStartDate())){
+                } else if (reservation.getStartDate().isEqual(existingReservation.getEndDate()) &&
+                        reservation.getEndDate().isAfter(existingReservation.getEndDate())){
+                } else if (reservation.getStartDate().isAfter(existingReservation.getEndDate()) &&
+                        reservation.getEndDate().isAfter(existingReservation.getEndDate())) {
+                } else {
+                    result.addErrorMessage("Cannot make reservation with overlapping dates.");
+                    return result;
+                }
             }
         }
         return result;

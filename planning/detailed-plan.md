@@ -224,17 +224,17 @@
                         * [x] must be in the future
                     * [x] enter an end date (required)
                         * [x] start date must come before end date
-                        * [ ] dates cannot overlap existing reservations dates
-                    * [ ] produce a summary
-                        * [ ] start date
-                        * [ ] end date
-                        * [ ] total price
-                            * [ ] based on weekday and weekend rates
-                        * [ ] "Is this okay? [y/n]"
+                        * [x] dates cannot overlap existing reservations dates
+                    * [x] produce a summary
+                        * [x] start date
+                        * [x] end date
+                        * [x] total price
+                            * [x] based on weekday and weekend rates
+                        * [x] "Is this okay? [y/n]"
                     * [x] display success/failure message
                         * [x] if successful, save the reservation in data
                         
-                * [ ] Edit a Reservation
+                * [x] Edit a Reservation
                     * [ ] Note: allow users to press "Enter" to keep existing data
                     * [ ] enter a Guest email (required)
                         * [ ] if Guest not found, display a message

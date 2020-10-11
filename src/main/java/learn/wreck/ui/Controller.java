@@ -8,14 +8,15 @@ import learn.wreck.service.GuestService;
 import learn.wreck.service.HostService;
 import learn.wreck.service.ReservationService;
 import learn.wreck.service.Result;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class Controller {
@@ -78,8 +79,8 @@ public class Controller {
         Guest guest = findGuestByEmail();
         int guestID = guest.getGuestID();
         displayReservationsByHost(host);
-        LocalDate startDate = view.readDate("Start (MM/dd/yyyy): ");
-        LocalDate endDate = view.readDate("End (MM/dd/yyyy): ");
+        LocalDate startDate = view.readRequiredDate("Start (MM/dd/yyyy): ");
+        LocalDate endDate = view.readRequiredDate("End (MM/dd/yyyy): ");
 
         Reservation reservation = new Reservation();
         reservation.setStartDate(startDate);
@@ -99,6 +100,8 @@ public class Controller {
             result = reservationService.setReservation(reservation, hostEmail);
             String successMessage = String.format("Reservation %s made successfully", result.getPayload().getReservationID());
             view.displayStatus(true, successMessage);
+        } else {
+            view.displayStatus(false, result.getMessages());
         }
     }
 
@@ -129,19 +132,31 @@ public class Controller {
         int reservationID = view.getReservationID("Enter a Reservation ID to edit: ", min, max);
         view.displayHeader(String.format("Editing Reservation %d", reservationID));
 
+        LocalDate oldStartDate = null;
+        LocalDate oldEndDate = null;
         LocalDate newStartDate = null;
         LocalDate newEndDate = null;
         for (Reservation reservation : hostAndGuestReservations) {
             if (reservation.getReservationID() == reservationID) {
-                newStartDate = view.readDate(String.format("Start (%s): ", reservation.getStartDate()));
-                newEndDate = view.readDate(String.format("End (%s): ", reservation.getEndDate()));
+                oldStartDate = reservation.getStartDate();
+                oldEndDate = reservation.getEndDate();
+                newStartDate = view.readDate(String.format("Start (%s): ", reservation.getStartDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))));
+                newEndDate = view.readDate(String.format("End (%s): ", reservation.getEndDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))));
             }
         }
         Reservation reservation = new Reservation();
         reservation.setGuestID(guest.getGuestID());
-        reservation.setStartDate(newStartDate);
-        reservation.setEndDate(newEndDate);
-        reservation.setTotalPrice(calculatePrice(host,newStartDate,newEndDate));
+        if (newStartDate == null) {
+            reservation.setStartDate(oldStartDate);
+        } else {
+            reservation.setStartDate(newStartDate);
+        }
+        if (newEndDate == null) {
+            reservation.setEndDate(oldEndDate);
+        } else {
+            reservation.setEndDate(newEndDate);
+        }
+        reservation.setTotalPrice(calculatePrice(host,reservation.getStartDate(),reservation.getEndDate()));
         reservation.setReservationID(reservationID);
 
         view.displayHeader("Summary");
@@ -153,16 +168,55 @@ public class Controller {
         }
 
         if (result.isSuccess()) {
-            String successMessage = String.format("Reservation %s made successfully", reservation.getReservationID());
+            String successMessage = String.format("Reservation %s edited successfully", reservation.getReservationID());
             view.displayStatus(true, successMessage);
+        } else {
+            view.displayStatus(false, result.getMessages());
+        }
+
+    }
+
+    private void cancelReservation() throws DataException {
+        view.displayHeader("Cancel a Reservation");
+        Guest guest = guestService.findByEmail(view.readEmail("Guest email: "));
+        Host host = hostService.findByEmail(view.readEmail("Host email: "));
+        displayReservationsByHostAndGuest(host, guest);
+
+        // TODO put this into its own method, same code that's used in editReservation
+        List<Reservation> hostAndGuestReservations = new ArrayList<>();
+        List<Reservation> reservations = reservationService.viewReservationByHost(host.getEmailAddress());
+        for (Reservation reservation : reservations) {
+            if (reservation.getGuestID() == guest.getGuestID()) {
+                hostAndGuestReservations.add(reservation);
+            }
+        }
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (Reservation reservation : hostAndGuestReservations) {
+            if (reservation.getReservationID() >= max) {
+                max = reservation.getReservationID();
+            } if (reservation.getReservationID() <= min) {
+                min = reservation.getReservationID();
+            }
+        }
+        int reservationID = view.getReservationID("Reservation ID: ", min, max);
+
+        boolean success = false;
+        for (Reservation reservation : hostAndGuestReservations) {
+            if (reservation.getReservationID() == reservationID) {
+                success = reservationService.cancelReservation(reservation, host.getEmailAddress());
+
+            }
+        }
+
+        if (success) {
+            String successMessage = String.format("Reservation %d cancelled.", reservationID);
+            view.displayStatus(true, successMessage);
+        } else {
+            String failureMessage = "Something went wrong. Please try again.";
+            view.displayStatus(false, failureMessage);
         }
     }
-
-    private void cancelReservation() {
-    }
-
-
-
 
 
     // private methods

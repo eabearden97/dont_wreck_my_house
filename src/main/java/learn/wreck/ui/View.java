@@ -6,8 +6,10 @@ import learn.wreck.service.Result;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -73,8 +75,8 @@ public class View {
             }
             String formattedReservation = String.format("ID: %-4d %s - %-12s Guest: %s %s ... Email: %s",
                     reservation.getReservationID(),
-                    reservation.getStartDate().toString(),
-                    reservation.getEndDate().toString(),
+                    reservation.getStartDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")),
+                    reservation.getEndDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")),
                     firstName,
                     lastName,
                     guestEmail);
@@ -93,6 +95,10 @@ public class View {
         return io.readRequiredString(prompt);
     }
 
+
+    public LocalDate readRequiredDate(String prompt) {
+        return io.readRequiredDate(prompt);
+    }
 
     public LocalDate readDate(String prompt) {
         return io.readDate(prompt);
