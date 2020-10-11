@@ -429,6 +429,22 @@ class ReservationServiceTest {
         assertEquals(1, reservations.size());
     }
 
+    @Test
+    void shouldViewReservationByHostAndGuest() {
+        List<Reservation> reservations = service.viewReservationByHostAndGuest(hostEmailAddress, 5);
+
+        assertNotNull(reservations);
+        assertEquals(1, reservations.size());
+    }
+
+    @Test
+    void shouldNotViewReservationByHostAndMissingGuest() {
+        List<Reservation> reservations = service.viewReservationByHostAndGuest(hostEmailAddress, 8);
+
+        assertNotNull(reservations);
+        assertEquals(0, reservations.size());
+    }
+
     // TODO ask about this test, for the Double, I make a list and assume that it's for the email that's passed in
         // is this incorrect to do
 //    @Test

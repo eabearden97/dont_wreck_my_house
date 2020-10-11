@@ -235,60 +235,60 @@
                         * [x] if successful, save the reservation in data
                         
                 * [x] Edit a Reservation
-                    * [ ] Note: allow users to press "Enter" to keep existing data
-                    * [ ] enter a Guest email (required)
-                        * [ ] if Guest not found, display a message
-                    * [ ] enter a Host email (required)
-                    * [ ] this produces all existing reservation for that Host/Location and Guest combo
-                    * [ ] enter a reservation ID
-                    * [ ] display start date and allow user to enter a new one
-                        * [ ] must be in the future
-                    * [ ] display end date and allow user to enter a new one
-                        * [ ] start date must come before end date
-                        * [ ] dates cannot overlap existing reservations dates
-                    * [ ] produce a summary
-                        * [ ] start date
-                        * [ ] end date
-                        * [ ] total price
-                        * [ ] "Is this okay? [y/n]"
-                    * [ ] display success/failure message
+                    * [x] Note: allow users to press "Enter" to keep existing data
+                    * [x] enter a Guest email (required)
+                        * [x] if Guest not found, display a message
+                    * [x] enter a Host email (required)
+                    * [x] this produces all existing reservation for that Host/Location and Guest combo
+                    * [x] enter a reservation ID
+                    * [x] display start date and allow user to enter a new one
+                        * [x] must be in the future
+                    * [x] display end date and allow user to enter a new one
+                        * [x] start date must come before end date
+                        * [x] dates cannot overlap existing reservations dates
+                    * [x] produce a summary
+                        * [x] start date
+                        * [x] end date
+                        * [x] total price
+                        * [x] "Is this okay? [y/n]"
+                    * [x] display success/failure message
                     
-                * [ ] Cancel a Reservation
-                    * [ ] enter a Host email
-                        * [ ] if Host not found, display a message
-                        * [ ] if Host has no reservations, display a message
-                    * [ ] this produces all reservations for that Host/Location
-                        * [ ] only display future reservation (cannot cancel past reservation)
-                        * [ ] show the Guest, dates, totals, etc. for each reservation
-                        * [ ] sort reservations by date
-                    * [ ] enter a reservation ID
-                        * [ ] display success/failure message
+                * [x] Cancel a Reservation
+                    * [x] enter a Host email
+                        * [x] if Host not found, display a message
+                        * [x] if Host has no reservations, display a message
+                    * [x] this produces all reservations for that Host/Location
+                        * [x] only display future reservation (cannot cancel past reservation)
+                        * [x] show the Guest, dates, totals, etc. for each reservation
+                        * [x] sort reservations by date
+                    * [x] enter a reservation ID
+                        * [x] display success/failure message
         * [x] Make App class
             * [x] should just have a few line
                 * [x] make new Controller object
                 * [x] call controller.run()
         * [x] Add Spring DI Annotations
     * ====================================================
-    * [ ] Debugging (4 hours)
+    * [x] Debugging (4 hours)
     * ====================================================
-    * [ ] Code Improvements/Refactoring (4 hours)
-        * [ ] delete unnecessary methods
-        * [ ] delete code that is commented out
-        * [ ] delete unnecessary imports
-        * [ ] GuestFileRepository and Host FileRepository could both come from the same interface
+    * [x] Code Improvements/Refactoring (4 hours)
+        * [x] delete unnecessary methods
+        * [x] delete code that is commented out
+        * [x] delete unnecessary imports
+        * [x] GuestFileRepository and Host FileRepository could both come from the same interface
             * they each have the same 3 methods
-        * [ ] ReservationFileRepository and its test require a hostEmail and hostRepository
+        * [x] ReservationFileRepository and its test require a hostEmail and hostRepository
             * might make sense to just declare what file we're in to start with like in 
                 ForageFileRepositoryTest where the test only does 1 date/file
                 * if I do this, add a test that makes sure you can't add a reservation for the wrong host
                 * do what they did with dates at top of test but with hostID for a specific host/file
-        * [ ] ReservationServiceTest create a reservation object that I can call in each test
+        * [x] ReservationServiceTest create a reservation object that I can call in each test
             * maybe just make one edit to that reservation per test to accomplish goal of test
-        * [ ] ReservationServiceTest make it so that you have to edit at least one parameter in editReservation
+        * [x] ReservationServiceTest make it so that you have to edit at least one parameter in editReservation
     * ====================================================
-    * [ ] Miscellaneous Time (4 hours)
+    * [x] Miscellaneous Time (4 hours)
     * ====================================================
-    * [ ] Questions
+    * [x] Questions
         * Is passing a HostRepository and hostEmail the best way 
             to do the reservationRepository CRUD methods?
         * For each CRUD operation in the reservationService, should I pass in each parameter

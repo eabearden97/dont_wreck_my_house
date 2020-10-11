@@ -41,6 +41,10 @@ public class ConsoleIO {
                 int result = Integer.parseInt(readRequiredString(prompt));
                 if (result >= min && result <= max) {
                     return result;
+                } else if (min == max) {
+                    printf("Error: Only option is to enter %d.%n", min);
+                } else {
+                    printf("Error: Enter a number between %d and %d.%n", min, max);
                 }
             } catch (NumberFormatException ex) {
                 printf("Error: Enter a valid number between %d and %d.%n", min, max);

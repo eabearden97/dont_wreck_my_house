@@ -18,6 +18,13 @@ public class Reservation {
         this.totalPrice = totalPrice;
     }
 
+    public Reservation(LocalDate startDate, LocalDate endDate, int guestID, BigDecimal totalPrice) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.guestID = guestID;
+        this.totalPrice = totalPrice;
+    }
+
     public Reservation() {
     }
 

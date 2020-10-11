@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +41,17 @@ public class ReservationService {
         return reservations;
     }
 
+    public List<Reservation> viewReservationByHostAndGuest(String hostEmail, int guestID) {
+        List<Reservation> hostAndGuestReservations = new ArrayList<>();
+        List<Reservation> reservations = viewReservationByHost(hostEmail);
+        for (Reservation reservation : reservations) {
+            if (reservation.getGuestID() == guestID) {
+                hostAndGuestReservations.add(reservation);
+            }
+        }
+        return hostAndGuestReservations;
+    }
+
     public Result<Reservation> editReservation(Reservation reservation1, String hostEmail) throws DataException {
         Result<Reservation> result = new Result<>();
 
@@ -48,8 +60,6 @@ public class ReservationService {
             return result;
         }
 
-        // TODO fillInNullFields should be taken away because I deal with filling in nulls in UI layer
-            // at this point, there shouldn't be any nulls
         Reservation reservation = fillInNullReservationFields(reservation1, hostEmail);
         result = validate(reservation, hostEmail);
         if (!result.isSuccess()) {

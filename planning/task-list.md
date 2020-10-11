@@ -11,22 +11,22 @@
         * Actual time taken = 4 hours
     * [x] Test Domain Layer (3 hours)
         * Actual time taken = 5 hours
-    * [ ] Build UI Layer (4 hours)
-        * Actual time taken = 
-    * [ ] Debugging (4 hours)
-        * Actual time taken = 
-    * [ ] Code Improvements/Refactoring (4 hours)
-        * Actual time taken = 
-    * [ ] Miscellaneous Time (4 hours)
-        * Actual time taken = 
+    * [x] Build UI Layer (4 hours)
+        * Actual time taken = 8 hours
+    * [x] Debugging (4 hours)
+        * Actual time taken = 4 hours
+    * [x] Code Improvements/Refactoring (4 hours)
+        * Actual time taken = 2 hours
+    * [x] Miscellaneous Time (4 hours)
+        * Actual time taken = 6 hours
     
     * Estimated Total Time = 34 hours
-    * Actual Total Time = 
+    * Actual Total Time = 39 hours
 
 * Deliverables
     * [x] Schedule of Concrete Tasks
     * [x] Class Diagram (sketch of classes)
     * [x] Sequence of Diagrams
-    * [ ] Java Maven project
-    * [ ] Test Suite
+    * [x] Java Maven project
+    * [x] Test Suite
     

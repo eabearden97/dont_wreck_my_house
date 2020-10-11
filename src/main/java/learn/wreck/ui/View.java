@@ -1,15 +1,17 @@
 package learn.wreck.ui;
 
 import learn.wreck.models.Guest;
+import learn.wreck.models.Host;
 import learn.wreck.models.Reservation;
 import learn.wreck.service.Result;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -57,6 +59,26 @@ public class View {
         displayStatus(success, List.of(message));
     }
 
+    public void displaySummary(Reservation reservation) {
+        io.printf("Start: %s%n", reservation.getStartDate().toString());
+        io.printf("End: %s%n", reservation.getEndDate().toString());
+        String formattedPrice = String.format("$%s", reservation.getTotalPrice());
+        io.printf("Total: %s%n", formattedPrice);
+    }
+
+    public String readEmail(String prompt) {
+        return io.readRequiredString(prompt);
+    }
+
+
+    public LocalDate readRequiredDate(String prompt) {
+        return io.readRequiredDate(prompt);
+    }
+
+    public LocalDate readDate(String prompt) {
+        return io.readDate(prompt);
+    }
+
     public void formatReservations(List<Reservation> reservations, List<Guest> guests) {
         if (reservations.size() == 0) {
             io.println("There are no reservations for this host.");
@@ -91,24 +113,34 @@ public class View {
         return orderedReservations;
     }
 
-    public String readEmail(String prompt) {
-        return io.readRequiredString(prompt);
+    public BigDecimal calculatePrice(Host host, LocalDate startDate, LocalDate endDate) {
+        BigDecimal price = new BigDecimal(0);
+        for (;startDate.isBefore(endDate); startDate = startDate.plusDays(1)) {
+            if (startDate.getDayOfWeek() == DayOfWeek.SATURDAY || startDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                price = price.add(host.getWeekendRate());
+            } else {
+                price = price.add(host.getStandardRate());
+            }
+        }
+        return price;
     }
 
-
-    public LocalDate readRequiredDate(String prompt) {
-        return io.readRequiredDate(prompt);
+    public int getReservationID(String prompt, int min, int max) {
+        return io.readInt(prompt, min, max);
     }
 
-    public LocalDate readDate(String prompt) {
-        return io.readDate(prompt);
-    }
-
-    public void displaySummary(Reservation reservation) {
-        io.printf("Start: %s%n", reservation.getStartDate().toString());
-        io.printf("End: %s%n", reservation.getEndDate().toString());
-        String formattedPrice = String.format("$%s", reservation.getTotalPrice());
-        io.printf("Total: %s%n", formattedPrice);
+    public int chooseReservationID(List<Reservation> reservations) {
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (Reservation reservation : reservations) {
+            if (reservation.getReservationID() >= max) {
+                max = reservation.getReservationID();
+            } if (reservation.getReservationID() <= min) {
+                min = reservation.getReservationID();
+            }
+        }
+        int reservationID = getReservationID("Enter a Reservation ID: ", min, max);
+        return reservationID;
     }
 
     public Result<Reservation> getConfirmation() {
@@ -126,12 +158,41 @@ public class View {
         return result;
     }
 
-    public int getReservationID(String prompt, int min, int max) {
-        return io.readInt(prompt, min, max);
+    public Reservation makeReservation(Host host, Guest guest) {
+        LocalDate startDate = readRequiredDate("Start (MM/dd/yyyy): ");
+        LocalDate endDate = readRequiredDate("End (MM/dd/yyyy): ");
+        Reservation reservation = new Reservation(startDate, endDate, guest.getGuestID(), calculatePrice(host, startDate, endDate));
+        return reservation;
     }
 
+    public Reservation editReservation(Host host, Guest guest, List<Reservation> reservations, int reservationID) {
+        LocalDate oldStartDate = null;
+        LocalDate oldEndDate = null;
+        LocalDate newStartDate = null;
+        LocalDate newEndDate = null;
+        for (Reservation reservation : reservations) {
+            if (reservation.getReservationID() == reservationID) {
+                oldStartDate = reservation.getStartDate();
+                oldEndDate = reservation.getEndDate();
+                newStartDate = readDate(String.format("Start (%s): ", reservation.getStartDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))));
+                newEndDate = readDate(String.format("End (%s): ", reservation.getEndDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))));
+            }
+        }
+        Reservation reservation = new Reservation();
+        reservation.setGuestID(guest.getGuestID());
+        if (newStartDate == null) {
+            reservation.setStartDate(oldStartDate);
+        } else {
+            reservation.setStartDate(newStartDate);
+        }
+        if (newEndDate == null) {
+            reservation.setEndDate(oldEndDate);
+        } else {
+            reservation.setEndDate(newEndDate);
+        }
+        reservation.setTotalPrice(calculatePrice(host,reservation.getStartDate(),reservation.getEndDate()));
+        reservation.setReservationID(reservationID);
 
-
-
-
+        return reservation;
+    }
 }
